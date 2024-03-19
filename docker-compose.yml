@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: spring_postgres
+    environment:
+      POSTGRES_DB: your-postgres-db
+      POSTGRES_USER: your-postgres-user
+      POSTGRES_PASSWORD: your-postgres-password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  springbootapp:
+    image: your-build-image:latest
+    container_name: spring_boot_template
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: your-postgres-db
+      SPRING_DATASOURCE_USERNAME: your-postgres-user
+      SPRING_DATASOURCE_PASSWORD: your-postgres-password
+
+volumes:
+  postgres_data:
